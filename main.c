@@ -9,9 +9,7 @@ int printMatrix(int** matrix, size_t row, size_t col);
 int main()
 {
     srand(time(0));
-
-    int** matrix = CreateMatrix(9999999, 9999999, -10, 10);
-    //printMatrix(matrix, 1024, 1024);
+    int** matrix = CreateMatrix(999, 999999, -10, 10);
 
     return 0;
 }
@@ -26,7 +24,6 @@ int** CreateMatrix(size_t row, size_t col, int rangeA, int rangeB)
   }
 
   int** matrix = (int**)calloc(row, sizeof(int*));
-
   if(matrix)
   {
     for(int i = 0; i < row; i++)
