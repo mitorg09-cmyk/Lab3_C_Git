@@ -12,15 +12,109 @@ int main()
 {
     srand(time(0));
 
-    int** matrix = CreateMatrix(10, 10, -10, 10);
-    int** matrix2 = CreateMatrix(10, 10, -10, 10);
+    // For create matrix and print matrix test
+    // int** matrix = CreateMatrix(10, 10, -10, 10);
+    // PrintMatrix(matrix, 10, 10);
 
-    PrintMatrix(matrix, 10, 10);
-    PrintMatrix(matrix2, 10, 10);
+    // int** matrix1 = CreateMatrix(999999999999, 10, -10, 10); // Creating err from row create
+    // PrintMatrix(matrix1, 999999999999, 10);
 
-    int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
+    // int** matrix1 = CreateMatrix(99, 99999999999999, -10, 10); // Creating err from col create (matrix cleared)
+    // PrintMatrix(matrix1, 99, 99999999999999);
+    // <--
 
-    PrintMatrix(smMx, 10, 10);
+
+
+    // For simple sum matrix test
+    // int** matrix = CreateMatrix(10, 10, -10, 10);
+    // int** matrix2 = CreateMatrix(10, 10, -10, 10);
+
+    // PrintMatrix(matrix, 10, 10);
+    // PrintMatrix(matrix2, 10, 10);
+
+    // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
+
+    // PrintMatrix(smMx, 10, 10);
+    // <--
+
+
+
+    // For sum sparsed matrix test
+    // int** matrix = CreateMatrix(10, 10, -10, 10);
+    // int** matrix2 = CreateMatrix(10, 10, -10, 10);
+
+    // free(matrix[0]);
+    // matrix[0] = NULL;
+    // free(matrix2[0]);
+    // matrix2[0] = NULL;
+
+    // free(matrix[1]);
+    // matrix[1] = NULL;
+    // free(matrix2[2]);
+    // matrix2[2] = NULL;
+
+    // PrintMatrix(matrix, 10, 10);
+    // PrintMatrix(matrix2, 10, 10);
+
+    // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
+
+    // PrintMatrix(smMx, 10, 10);
+    // <--
+
+
+
+    // For full sparsed matrix sum test
+    // int** matrix = CreateMatrix(10, 10, -10, 10);
+    // int** matrix2 = CreateMatrix(10, 10, -10, 10);
+
+    // for(int i = 0; i < 10; i++)
+    // {
+    //   free(matrix[i]);
+    //   matrix[i] = NULL;
+    //   free(matrix2[i]);
+    //   matrix2[i] = NULL;
+    // }
+
+    // PrintMatrix(matrix, 10, 10);
+    // PrintMatrix(matrix2, 10, 10);
+
+    // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
+
+    // PrintMatrix(smMx, 10, 10);
+    // <--
+
+
+
+    // For simple transpose test
+    // int** matrix = CreateMatrix(5, 10, -10, 10);
+
+    // PrintMatrix(matrix, 5, 10);
+
+    // TranspsMx(&matrix, 5, 10);
+
+    // PrintMatrix(matrix, 10, 5);
+    // <--
+
+
+
+    // For transpose sparsed matrix test
+    // int** matrix = CreateMatrix(5, 10, -10, 10);
+
+    // free(matrix[0]);
+    // matrix[0] = NULL;
+    // free(matrix[1]);
+    // matrix[1] = NULL;
+    // free(matrix[2]);
+    // matrix[2] = NULL;
+    // free(matrix[3]);
+    // matrix[3] = NULL;
+
+    // PrintMatrix(matrix, 5, 10);
+
+    // TranspsMx(&matrix, 5, 10);
+
+    // PrintMatrix(matrix, 10, 5);
+    // <--
 
     return 0;
 }
@@ -155,6 +249,11 @@ int** SumMx(int** mx1, int** mx2, size_t row1, size_t col1, size_t row2, size_t 
     else if(mx2[i])
       for(int j = 0; (size_t)j < col1; j++)
         smMx[i][j] = mx2[i][j];
+    else
+      {
+        free(smMx[i]);
+        smMx[i] = NULL;
+      }
   }
 
   return smMx;
