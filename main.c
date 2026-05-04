@@ -5,7 +5,7 @@
 int** CreateMatrix(size_t row, size_t col, int rangeA, int rangeB);
 void ClearMatrix(int*** matrix, size_t row);
 int PrintMatrix(int** matrix, size_t row, size_t col);
-int TranspsMx(int*** ptrMatrix, size_t row, size_t col);
+int TranspsMx(int*** ptrMatrix, size_t* row, size_t* col);
 int** SumMx(int** mx1, int** mx2, size_t row1, size_t col1, size_t row2, size_t col2);
 
 int main()
@@ -15,12 +15,15 @@ int main()
     // For create matrix and print matrix test
     // int** matrix = CreateMatrix(10, 10, -10, 10);
     // PrintMatrix(matrix, 10, 10);
+    // ClearMatrix(&matrix, 10);
 
     // int** matrix1 = CreateMatrix(999999999999, 10, -10, 10); // Creating err from row create
     // PrintMatrix(matrix1, 999999999999, 10);
+    // ClearMatrix(&matrix1, 999999999999);
 
     // int** matrix1 = CreateMatrix(99, 99999999999999, -10, 10); // Creating err from col create (matrix cleared)
     // PrintMatrix(matrix1, 99, 99999999999999);
+    // ClearMatrix(&matrix1, 99);
     // <--
 
 
@@ -35,6 +38,9 @@ int main()
     // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
 
     // PrintMatrix(smMx, 10, 10);
+    // ClearMatrix(&matrix, 10);
+    // ClearMatrix(&matrix2, 10);
+    // ClearMatrix(&smMx, 10);
     // <--
 
 
@@ -59,6 +65,9 @@ int main()
     // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
 
     // PrintMatrix(smMx, 10, 10);
+    // ClearMatrix(&matrix, 10);
+    // ClearMatrix(&matrix2, 10);
+    // ClearMatrix(&smMx, 10);
     // <--
 
 
@@ -81,24 +90,30 @@ int main()
     // int** smMx = SumMx(matrix, matrix2, 10, 10, 10, 10);
 
     // PrintMatrix(smMx, 10, 10);
+    // ClearMatrix(&matrix, 10);
+    // ClearMatrix(&matrix2, 10);
+    // ClearMatrix(&smMx, 10);
     // <--
 
 
 
     // For simple transpose test
-    // int** matrix = CreateMatrix(5, 10, -10, 10);
+    // size_t row = 5, col = 10;
+    // int** matrix = CreateMatrix(row, col, -10, 10);
 
-    // PrintMatrix(matrix, 5, 10);
+    // PrintMatrix(matrix, row, col);
 
-    // TranspsMx(&matrix, 5, 10);
+    // TranspsMx(&matrix, &row, &col);
 
-    // PrintMatrix(matrix, 10, 5);
+    // PrintMatrix(matrix, row, col);
+    // ClearMatrix(&matrix, row);
     // <--
 
 
 
     // For transpose sparsed matrix test
-    // int** matrix = CreateMatrix(5, 10, -10, 10);
+    // size_t row = 5, col = 10;
+    // int** matrix = CreateMatrix(row, col, -10, 10);
 
     // free(matrix[0]);
     // matrix[0] = NULL;
@@ -109,11 +124,12 @@ int main()
     // free(matrix[3]);
     // matrix[3] = NULL;
 
-    // PrintMatrix(matrix, 5, 10);
+    // PrintMatrix(matrix, row, col);
 
-    // TranspsMx(&matrix, 5, 10);
+    // TranspsMx(&matrix, &row, &col);
 
-    // PrintMatrix(matrix, 10, 5);
+    // PrintMatrix(matrix, row, col);
+    // ClearMatrix(&matrix, row);
     // <--
 
     return 0;
@@ -194,29 +210,32 @@ int PrintMatrix(int** matrix, size_t row, size_t col)
   return -1;
 }
 
-int TranspsMx(int*** ptrMatrix, size_t row, size_t col)
+int TranspsMx(int*** ptrMatrix, size_t* row, size_t* col)
 {
-  if(!ptrMatrix || !*ptrMatrix)
+  if(!ptrMatrix || !*ptrMatrix || !row || !col)
   {
     return -1;
   }
 
-  int** trspsMx = CreateMatrix(col, row, 0, 0);
+  int** trspsMx = CreateMatrix(*col, *row, 0, 0);
   if(!trspsMx)
   {
     return 1;
   }
 
-  for(int i = 0; (size_t)i < row; i++)
+  for(int i = 0; (size_t)i < *row; i++)
   {
-    if(!(*ptrMatrix)[i]) for(int j = 0; (size_t)j < col; j++) trspsMx[j][i] = 0;
+    if(!(*ptrMatrix)[i]) for(int j = 0; (size_t)j < *col; j++) trspsMx[j][i] = 0;
     else
     {
-      for(int j = 0; (size_t)j < col; j++) trspsMx[j][i] = (*ptrMatrix)[i][j];
+      for(int j = 0; (size_t)j < *col; j++) trspsMx[j][i] = (*ptrMatrix)[i][j];
     }
   }
 
-  ClearMatrix(ptrMatrix, row);
+  size_t tmp = *row;
+  *row = *col;
+  *col = tmp;
+  ClearMatrix(ptrMatrix, *col);
   *ptrMatrix = trspsMx;
   return 0;
 }
